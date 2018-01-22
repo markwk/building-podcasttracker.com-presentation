@@ -1,0 +1,482 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>How I Built a Podcast Tracking Web App with Drupal</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/league.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section data-markdown data-background="https://media.giphy.com/media/sNz7ODDP6lsRy/giphy.gif">
+					<textarea data-template>
+					
+					PodcastTracker.com: 
+					
+					## How I Built a Podcast Tracking Web App with Drupal
+					
+					<br/>
+					<br/>
+					
+					by Mark Koester (@Int3c)
+					</textarea>
+				</section>
+
+				<section data-markdown>
+					<textarea data-template>
+						
+						#### My Year in Podcast Listening (2016 Preview)
+						
+						<img data-src="slide-images/listening-in-podcasts-2016-02.png">
+
+					</textarea>
+				</section>
+
+				<section data-markdown>
+					<textarea data-template>
+						
+						#### My Year in Podcast Listening (2016 Preview)
+						
+						<img data-src="slide-images/listening-in-podcasts-2016-01.png">
+
+					</textarea>
+				</section>
+
+				<section data-markdown>
+					<textarea data-template>
+						
+						#### My Year in Podcast Listening (2016 Preview)
+						
+						<img data-src="slide-images/listening-in-podcasts-2016-03.png">
+
+					</textarea>
+				</section>
+
+				<section data-markdown>
+					<textarea data-template>
+						
+						#### My Year in Podcast Listening (2017 Preview)
+						
+						<img data-src="slide-images/my-year-in-podcast-listening-cover.png">
+
+					</textarea>
+				</section>
+
+				<section data-markdown>
+					<textarea data-template>
+
+						## Outline
+						
+						* Self-Tracking & Quantified Self
+						* Media Tracking 
+						* Can I Track My Podcast Listening?
+						* The Prototype & The Scraper
+						* For the *Love* of Cron 
+						* What I've Learned? 
+						
+					</textarea>
+				</section>		
+										
+				<section data-markdown>
+					<textarea data-template>
+						
+						<img data-src="slide-images/mark-headshot-squared.jpg">
+
+						## I'm a digital documentarist.
+
+						I am [Mark Koester](https://twitter.com/markwkoester). I'm a tech entrepreneur, a [web developer](http://int3c.com) (mostly), a [writer](http://www.markwk.com) and...
+					</textarea>
+				</section>
+
+				<section data-background="http://i.giphy.com/90F8aUepslB84.gif">
+						<h2>... and an obsessive tracker!</h2>
+				</section>	
+				<section id="fragments">
+				
+				<h2>Quantified Self: What is it?</h2>
+				
+				<p class="fragment fade-left">Def 1: Tracking raw data to try and draw correlations and ways to improve our lives from it.</p>
+				
+				<p class="fragment fade-left">Def 2: Measuring or documenting something about your self such that it gains meaning.</p>
+				
+				</section>
+				<section>
+					<section data-background="https://media.giphy.com/media/l3mZnuz4coJp8EBBm/giphy.gif">
+						<h2>What Do I Track...?</h2>
+					</section>
+					<section data-markdown>
+					<textarea data-template>
+
+					## Health & Fitness
+						
+					* Steps (Apple Watch)
+					* Blood Pressure
+					* Weight (digital scale and manual logging)
+					* Heart Rate & Heart Rate Variability 
+					* Running & Cycling (Strava)
+					* Sleep (AutoSleep app)
+					* Supplements and Medicine (RoundHealth)
+					* Strength Workouts (FitBod)
+					* Daily Standing
+					
+					</textarea>
+					</section>
+					<section data-markdown>
+					<textarea data-template>
+
+					## Time & Productivity			
+					
+					* Computing Time (RescueTime)
+					* Project Time (Toggl)
+					* Mobile Screen Time (Moment app)
+					* Tasks (Todoist)
+					* Habits and Goals (via Streaks, Habitica, Productive)
+					* Creative Written Words (Mac Word Counter app)
+
+					</textarea>
+					</section>
+					<section data-markdown>
+					<textarea data-template>
+					
+					## Learning & Media Consumption
+			
+					* Books Read (GoodReads)
+					* Articles Read (Pocket, Evernote)
+					* TV and Movie Watching (Trakt.tv)
+					* Music (Last.fm)
+	
+					</textarea>
+					</section>
+					<section data-markdown>
+					<textarea data-template>	
+
+					## Other Random Stuff
+					
+					* **NEW** Photos Taken and Where ([PhotoStats.io](www.photostats.io))
+					* Money & Finances (Mint)
+					* Location (Moves app, Reporter App)
+									
+					</textarea>
+				</section>	
+				</section>										
+
+				<section>
+					<section data-background="https://media.giphy.com/media/l0EoBlDn63scoVSXC/giphy.gif">
+						<h2>Exploring and Visualizing My Data: Examples</h2>
+						
+						<p><a href="http://www.markwk.com/2018/01/year-in-data.html">A Year in Numbers: My Data From 2017</a></p>
+					</section>
+					<section>
+							<img data-src="slide-images/2017-step-count.jpg" width="600" height="600">
+					</section>					
+					<section>
+							<img data-src="slide-images/2017-A-Year-in-Computer-Time.png">
+					</section>
+					<section>
+							<img data-src="slide-images/2017_Email-Usage-Check-in.png">
+					</section>
+					<section>
+							<img data-src="slide-images/2017-Year-in-Tasks-infographic.png">
+					</section>
+					
+				</section>
+
+				<section>
+					<section>
+					Media Tracking
+					</section>
+					<section data-background="https://media.giphy.com/media/2JS3lrvRhyIrC/giphy.gif">
+					Book Reading: GoodReads.com
+					</section>
+					<section data-background="https://media.giphy.com/media/3oEduPlMkw4LZE7624/giphy.gif">
+					<p style="color:red">Article Reading: Pocket, Evernote...</p></section>
+					<section data-background="https://media.giphy.com/media/l46CqqobS7VRaIpSE/giphy.gif">
+					<p style="color:red">Music Listening: Last.fm</p>
+					</section>
+					<section data-background="https://media.giphy.com/media/XhT868oxljs88/giphy.gif">
+					<p style="color:red">TV and Movies with Trakt.tv</p></section>
+					<section>
+							<img data-src="slide-images/2017-Year-in-Reading-infographic.png">
+					</section>
+					<section>
+							<img data-src="slide-images/2017-TV-and-Movie-watching.png">
+					</section>
+					<section id="fragments">
+					<h4>Missing Media Tracking:</h4> 
+					<p>.</p>
+					<p>.</p>
+					<h2 class="fragment fade-left">Podcasts</h2>
+					<p>.</p>
+					<p>.</p>
+					<p class="fragment fade-left">Can I Track My Podcast Listening like GoodReads, Trakt.tv, or Last.Fm?</p>
+					</section>
+				</section>
+				<section>
+					<img data-src="slide-images/digital-meditator-tracker-podcasts.jpg">
+					<h4>PROBLEM: What about tracking my podcast listening? Is is possible? How?</h4>
+				</section>
+				<section id="fragments">
+					<h2>Pocket Cast App</h2>
+					<img data-src="slide-images/podcast-listening-stats-01.jpg">
+					<p id="fragment">Limitations: No log of listening history, no export, no breakdown of stats. 
+				</section>
+				<section id="fragments">
+				<p>There is currently no app or web service to track your podcast listening. </p>
+				<p class="fragment fade-up">.</p>
+				<p class="fragment fade-up">.</p>
+				<p class="fragment fade-up">So let's build one!</p></section>
+				<section>
+					How I Built a Podcast Tracking Web App with Drupal
+				</section>
+				<section>The Prototype & The Scraper</section>
+				<section>
+										
+					<h4>Initial Feature List</h4>
+
+					<ol>
+						<li>Basic data structure around Podcast Channels + Episodes</li>
+						<li>Sync and update list of podcast episodes from an RSS feed.</li>
+						<li>Logger to mark that you subscribe to a channel and that you listened to an episode.</li>
+					</ol>
+						
+				</section>
+				<section>
+				<p>Starting Position: <a href="https://www.drupal.org/project/panopoly">Panopoly  Distro</a></p>
+				<img data-src="slide-images/panopoly-distro-intro.png">
+				</section>
+				<section>
+				<p>Content Type: Podcast Channel</p>
+				<img data-src="slide-images/content-type-02.png">
+				</section>
+				<section>
+				<p>Content Type: Podcast Channel</p>
+				<img data-src="slide-images/podcast-page-example.png">
+				</section>
+				<section>
+				<p>Content Type: Episode</p>
+				<img data-src="slide-images/content-type-01.png">
+				</section>
+				<section>
+				<p>Entity Reference: Episode => Podcast</p>
+				<img data-src="slide-images/entity-reference.png">
+				</section>
+
+				<section>
+				<p>Storing Duration? Options...</p>
+				<ul>
+					<li>https://www.drupal.org/project/interval</li>
+					<li>https://www.drupal.org/project/hms_field</li>
+				</ul>
+				</section>
+				
+				<section>
+				<p>Episode Page</p>
+				<img data-src="slide-images/podcast-episode-page.png">
+				</section>				
+				
+				
+				<section>
+				<p>Flag: Subscriptions and Listens</p>
+				<img data-src="slide-images/flags.png">
+				</section>
+				
+				<section>
+				<p>Flag: Logging an Episode Listen</p>
+				<img data-src="slide-images/logging-a-podcast-episode.png">
+				</section>				
+
+				<section>
+				<p>Importing with Feeds: Podcast RSS creates Episodes</p>
+				<img data-src="slide-images/feeds01.png">
+				</section>
+												
+				<section>Python Scraper: Importing Initial Directory of Podcasts</section>
+				<section>
+				<p>Import Podcasts with RSS Feeds</p>
+				<img data-src="slide-images/feeds02.png">
+				</section>
+
+				<section>
+				<p>Custom Code to Process and Add Additional Podcast Data like cover image and other info from RSS Channel</p>
+				</section>
+
+				<section>
+				<p>Custom Code to Better Parse RSS Episode Duration Info</p>
+				</section>
+
+				<section>
+				<p>Custom Code to Import OPML</p>
+				</section>
+
+				<section>
+				<p>Views: Listing of Subscribed Podcasts</p>
+				<img data-src="slide-images/listing02.png">
+				</section>
+
+				<section>
+				<p>Views: Listing of Latest Episodes from Subscribed Podcasts</p>
+				<img data-src="slide-images/listing01.png">
+				</section>
+
+				<section>
+				<p>Views: Listens (+ export)</p>
+				<img data-src="slide-images/listing03.png">
+				</section>
+
+				<section>
+				<p>Views: My Total Listening Time</p>
+				<img data-src="slide-images/my-total-listening-time.png">
+				</section>
+
+				<section>
+				<p>Views: My Total Listening Time</p>
+				<img data-src="slide-images/total-listened-to-view.png">
+				</section>
+
+				<section>
+				<p>Views: Listens by Channel</p>
+				<img data-src="slide-images/podcast-listening-by-channel.png">
+				</section>
+				
+				<section>For the <em>Love</em> of Cron</section>
+				<section>Cron Processes to Keep Things Up to Date</section>
+				
+				<section>More Site Features and Improvements</section>
+
+				<section data-markdown>
+					<textarea data-template>
+						
+						#### Raw Export of My Podcast Listening
+						
+						<img data-src="slide-images/podcast-listens-raw-export.png">
+
+					</textarea>
+				</section>
+
+				<section data-markdown>
+					<textarea data-template>
+						
+						#### Visualizing: My Year in Podcast Listening (2017 (1))
+						
+						<img data-src="slide-images/my-year-in-podcast-listening-cover.png">
+
+					</textarea>
+				</section>
+
+				<section data-markdown>
+					<textarea data-template>
+						
+						#### Visualizing: My Year in Podcast Listening (2017 (2))
+						
+						<img data-src="slide-images/2017-Podcast-Listening-Stats-top-listens.jpg">
+
+					</textarea>
+				</section>
+
+				<section data-markdown>
+					<textarea data-template>
+						
+						#### Visualizing: My Year in Podcast Listening (2017 (2))
+						
+						<img data-src="slide-images/2017-Podcast-Listening-Stats-weekly.jpg">
+
+					</textarea>
+				</section>
+
+				<section>
+				<h2>Future Features</h2>
+				<ul>
+					<li>Improved / Custom Design</li>
+					<li>API First?</li>
+					<li>Drupal 8?</li>
+					<li>Mobile App with React Native</li>
+				</ul>
+				</section>
+
+				<section data-markdown data-background="https://media.giphy.com/media/sNz7ODDP6lsRy/giphy.gif">
+					<textarea data-template>
+					
+					PodcastTracker.com: 
+					
+					## What I've Learned? 
+					
+					</textarea>
+				</section>
+
+				<section data-background="https://media.giphy.com/media/A06UFEx8jxEwU/giphy.gif">
+				<h2>Development Time</h2>
+				<p>The initial version took about 20 hours to build, and since then I've spent about another 20-30 hours of development.</p>
+				</section>
+
+				<section data-background="https://media.giphy.com/media/A06UFEx8jxEwU/giphy.gif">
+				<h2>Stats Logged</h2>
+				<p>As of early Jan 2018, over 300 <em>days</em> worth of podcast listening has been logged.</p>
+				</section>
+
+				<section data-markdown data-background="https://media.giphy.com/media/sNz7ODDP6lsRy/giphy.gif">
+					<textarea data-template>
+					
+					PodcastTracker.com: 
+					
+					## What I've Learned? 
+					
+					</textarea>
+				</section>
+
+				<section data-markdown>
+					<textarea data-template>
+
+						## Where Can You Find Me? 
+						
+						* Personal Blog: [www.markwk.com](http://www.markwk.com)
+						* Linkedin: [linkedin.com/in/markwkoester](https://www.linkedin.com/in/markwkoester) 
+						* Github: [markwk](https://github.com/markwk/)
+						* Professional Portfolio: [Int3c.com/portfolio](http://int3c.com/portfolio) 
+						* Twitter: [@markwkoester](https://twitter.com/markwkoester) 
+						
+						<br/>
+						
+						### <span style="color:red">Available for Hire:</span> 
+						
+						<small>Builder for Web and Mobile, Drupal Dev, CTO, Technology Consultant</small>
+					</textarea>
+				</section>
+
+
+			</div>
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info about config & dependencies:
+			// - https://github.com/hakimel/reveal.js#configuration
+			// - https://github.com/hakimel/reveal.js#dependencies
+			Reveal.initialize({
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+		</script>
+	</body>
+</html>
